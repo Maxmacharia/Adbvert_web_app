@@ -4,10 +4,11 @@ from sqlalchemy.orm import sessionmaker
 import psycopg2
 from sqlalchemy.orm import Session
 import time
+from config import settings
 
 #connection with te database
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:BCAJWZ4496@localhost/fastapi"
+SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 
 #Creating an engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

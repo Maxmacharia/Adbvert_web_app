@@ -4,9 +4,11 @@ import utils
 import schemas
 from sqlalchemy.orm import Session
 from database import get_db
+from geopy.geocoders import Nominatim
 
 router = APIRouter(prefix="/users", tags=['users'])
 
+#endpoint to create a user
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.user_account)
 def create_user(user: schemas.createuser, db: Session = Depends(get_db)):
     #use unpack dictionary **user.dict() to avoid lots of texting

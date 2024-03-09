@@ -9,12 +9,8 @@ import oauth2
 
 router = APIRouter(tags=['login'])
 
+# login endpoint
 @router.post("/login")
-#instead of passing the user_credentials "user_credentials: schemas.userlogin"
-#we are going to use a buil-in utility in the fastapi library
-#When you retrieve the user_credential from oAuth2PasswordRequestForm it's going to store it in a field called username
-#Not email
-# the testing is done in the form data and not raw in postman
 def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
     if not user:
