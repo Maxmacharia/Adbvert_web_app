@@ -12,7 +12,6 @@ class User(Base):
     userid = Column(Integer, primary_key=True, nullable=False)
     username = Column(String, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
-    role = Column(String, nullable=False)
     password = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text('now()'))
 

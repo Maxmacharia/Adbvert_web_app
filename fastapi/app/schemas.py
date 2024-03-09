@@ -6,7 +6,6 @@ from typing import Optional, List
 class createuser(BaseModel):
     username: str
     email: EmailStr
-    role: str
     password: str
 
 # Pydantic model for request body
@@ -32,7 +31,6 @@ class user_account(BaseModel):
     userid: int
     username: str
     email: EmailStr
-    role: str
     created_at: datetime
     class Config:
         orm_mode = True
