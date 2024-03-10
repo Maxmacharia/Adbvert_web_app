@@ -1,9 +1,9 @@
 from fastapi import APIRouter,Response, status, HTTPException, Depends
-import models
-import schemas
-import oauth2
+from app import models
+from app import schemas
+from app import oauth2
 from typing import List, Optional
-from database import get_db
+from app.database import get_db
 from sqlalchemy.orm import Session
 from shapely.geometry import Polygon
 
@@ -37,8 +37,9 @@ def create_polygon(polygon: schemas.PolygonCreate, db: Session = Depends(get_db)
     finally:
         db.close()
 
-#Retrieve all posts
-@router.get("/", response_model=List[schemas.CreatedPolygon])
+
+  #Retrieve all posts
+@router.get("/", response_model=List[schemas.PolygonCreate])
 def get_polygons(db: Session = Depends(get_db), current_user: int=Depends(oauth2.get_current_user)):
     polygons = db.query(models.PolygonModel).all()
     return polygons

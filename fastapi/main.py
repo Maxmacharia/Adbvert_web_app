@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-import models
-from database import engine
-from routers import adverts, user, auth, polygon, feedback
-from config import settings
+from app import models
+from app.database import engine
+from app.routers import adverts, user, auth, polygon, feedback
+from app.config import settings
 
 models.Base.metadata.create_all(bind=engine)
 

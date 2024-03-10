@@ -1,9 +1,9 @@
 from fastapi import APIRouter,Response, status, HTTPException, Depends
-import models
-import schemas
-import oauth2
+from app import models
+from app import schemas
+from app  import oauth2
 from typing import List, Optional
-from database import get_db
+from app.database import get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/feedback", tags=['feedback'])
@@ -63,7 +63,7 @@ def update_comment(comment_id: int, comment: schemas.feedback_post, db: Session 
     return existing_comment
 
 #an endpoint that fetches all comments
-@router.get("/{post_id}/comments", response_model=List[schemas.posted_feedback])
+@router.get("/{post_id}/comments", response_model=List[schemas.feedback_post])
 def get_post_comments(post_id: int, db: Session = Depends(get_db)):
     # Verify if the specified post exists
     post = db.query(models.Advert).filter(models.Advert.adid == post_id).first()

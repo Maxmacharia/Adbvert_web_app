@@ -1,10 +1,9 @@
 from fastapi import APIRouter, status, HTTPException, Depends
-import models
-import utils
-import schemas
+from app import models
+from app import utils
+from app import schemas
 from sqlalchemy.orm import Session
-from database import get_db
-from geopy.geocoders import Nominatim
+from app.database import get_db
 
 router = APIRouter(prefix="/users", tags=['users'])
 

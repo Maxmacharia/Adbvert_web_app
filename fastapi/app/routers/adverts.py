@@ -1,15 +1,15 @@
 from fastapi import APIRouter,Response, status, HTTPException, Depends
-import models
-import schemas
-import oauth2
+from app import models
+from app import schemas
+from app import oauth2
 from typing import List, Optional
-from database import get_db
+from app.database import get_db
 from sqlalchemy.orm import Session, joinedload
 
 router = APIRouter(prefix="/posts", tags=['posts'])
 
 #Retrieve all posts
-@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.advert_post])
+@router.get("/", status_code=status.HTTP_200_OK, response_model=List[schemas.advert])
 def query_advert(db: Session = Depends(get_db), current_user: int=Depends(oauth2.get_current_user), search: Optional[str] = ""):
     print(search)
     advert = db.query(models.Advert).filter(models.Advert.title.contains(search)).all()

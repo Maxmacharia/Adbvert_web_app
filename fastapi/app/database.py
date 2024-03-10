@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import psycopg2
 from sqlalchemy.orm import Session
 import time
-from config import settings
+from app.config import settings
 
 #connection with te database
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
