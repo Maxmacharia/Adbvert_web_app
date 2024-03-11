@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/feedback", tags=['feedback'])
 
+# Endpoint for creating a comment
 @router.post("/{post_id}", status_code=status.HTTP_201_CREATED, response_model=schemas.posted_feedback)
 def create_post(post_id: int, comment: schemas.feedback_post, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     # Verify if the specified post exists

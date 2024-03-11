@@ -15,14 +15,6 @@ def query_advert(db: Session = Depends(get_db), current_user: int=Depends(oauth2
     advert = db.query(models.Advert).filter(models.Advert.title.contains(search)).all()
     return advert
 
-
-#@app.post("/users", status_code=status.HTTP_201_CREATED)
-#def create_user(user : usercreate):
-    #cursor.execute("""INSERT INTO usercreate(User_ID, username, email, role, password) VALUES(%s, %s, %s, %s, %s) RETURNING *""", (user.User_ID, user.username, user.email, user.role, user.password))
-    #new_user = cursor.fetchone()
-    #conn.commit()
-    #return {"data": new_user}
-
 # Creating a post
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.advert_post)
 def advert_create(ad: schemas.advert, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
@@ -58,13 +50,6 @@ def get_one_post(id: int, db: Session = Depends(get_db), current_user: int=Depen
     if not one_post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} was not found")
     return one_post
-
-
-#@app.get("/posts")
-#def get_posts():
-    #cursor.execute("""SELECT * FROM usercreate""")
-    #posts = cursor.fetchall()
-    #return posts
 
 # Deleting a post
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)

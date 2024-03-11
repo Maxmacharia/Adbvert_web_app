@@ -33,7 +33,7 @@ class user_account(BaseModel):
     email: EmailStr
     created_at: datetime
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Pydantic model for response body
 class CreatedPolygon(BaseModel):
@@ -43,7 +43,7 @@ class CreatedPolygon(BaseModel):
     owner_id: int
     owner: user_account
     class Config:
-        orm_mode: True
+        from_attributes = True
 
 # Pydantic model for response body
 class advert_post(advert):
@@ -54,7 +54,7 @@ class advert_post(advert):
     polygon_id: int
     polygon: CreatedPolygon
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Pydantic model for response body
 class posted_feedback(BaseModel):
@@ -67,7 +67,7 @@ class posted_feedback(BaseModel):
     post: advert_post
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Pydantic model for response body
 class Token(BaseModel):
