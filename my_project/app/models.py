@@ -16,12 +16,11 @@ class User(Base):
     created_at = Column(TIMESTAMP, nullable=False, server_default=text('now()'))
 
 
-# Define the model for the Polygon table
 class PolygonModel(Base):
     __tablename__ = "polygons"
 
     id = Column(Integer, primary_key=True, index=True)
-    geom = Column(Geometry("POLYGON"))
+    geom = Column(Geometry("POLYGON", srid=-1))  # Specify SRID as -1
     boundary = Column(JSONB)  # Add boundary as JSONB type
     created_at = Column(TIMESTAMP, nullable=False, server_default=text('now()'))
     owner_id = Column(Integer, ForeignKey("usercreate.userid", ondelete="CASCADE"), nullable=False)

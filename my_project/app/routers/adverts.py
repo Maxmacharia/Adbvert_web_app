@@ -1,10 +1,12 @@
-from fastapi import APIRouter,Response, status, HTTPException, Depends
+from fastapi import APIRouter,Response, status, HTTPException, Depends, BackgroundTasks
 from my_project.app import models
 from my_project.app import schemas
 from my_project.app import oauth2
 from typing import List, Optional
 from my_project.app.database import get_db
 from sqlalchemy.orm import Session, joinedload
+from shapely.geometry import Polygon, Point
+
 
 router = APIRouter(prefix="/posts", tags=['posts'])
 

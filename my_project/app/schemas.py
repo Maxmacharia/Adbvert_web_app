@@ -76,3 +76,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+    location: Optional[str] = None
