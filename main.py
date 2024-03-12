@@ -6,7 +6,7 @@ from my_project.app.config import settings
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title="advert app")
 
 app.include_router(adverts.router)
 app.include_router(user.router)
