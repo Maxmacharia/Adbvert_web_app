@@ -2,6 +2,7 @@ from fastapi import APIRouter,Response, status, HTTPException, Depends, Backgrou
 from my_project.app import models
 from my_project.app import schemas
 from my_project.app import oauth2
+from my_project.app.routers.service import send_notifications_to_users
 from typing import List, Optional
 from my_project.app.database import get_db
 from sqlalchemy.orm import Session, joinedload
@@ -18,6 +19,17 @@ def query_advert(db: Session = Depends(get_db), current_user: int=Depends(oauth2
     return advert
 
 # Creating a post
+
+
+#Retrieving a post by id
+@router.get("/{id}", response_model=schemas.advert_post)
+def get_one_post(id: int, db: Session = Depends(get_db), current_user: int=Depends(oauth2.get_current_user)):
+    one_post = db.query(models.Advert).filter(models.Advert.adid == id).first()
+    if not one_post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} was not found")
+    return one_post
+
+#API endpoint for posting a post
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.advert_post)
 def advert_create(ad: schemas.advert, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     try:
@@ -37,6 +49,9 @@ def advert_create(ad: schemas.advert, db: Session = Depends(get_db), current_use
         new_post.owner
         new_post.polygon
 
+        # Send email notifications to all users
+        send_notifications_to_users(db, new_post)
+
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create post: {str(e)}")
@@ -45,15 +60,7 @@ def advert_create(ad: schemas.advert, db: Session = Depends(get_db), current_use
 
     return new_post
 
-#Retrieving a post by id
-@router.get("/{id}", response_model=schemas.advert_post)
-def get_one_post(id: int, db: Session = Depends(get_db), current_user: int=Depends(oauth2.get_current_user)):
-    one_post = db.query(models.Advert).filter(models.Advert.adid == id).first()
-    if not one_post:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id {id} was not found")
-    return one_post
-
-# Deleting a post
+#API endpoint for deleting a post
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
 def advert_delete(post_id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     try:
@@ -80,7 +87,7 @@ def advert_delete(post_id: int, db: Session = Depends(get_db), current_user: int
     finally:
         db.close()
 
-#Update a postraise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail = f"Not authorized to perform the requested action")
+#API endpoint for updating a post 
 @router.put("/{id}", response_model=schemas.advert_post)
 def update_post(id : int, updated_post: schemas.advert, db: Session = Depends(get_db), current_user: int=Depends(oauth2.get_current_user)):
     post_update = db.query(models.Advert).filter(models.Advert.adid == id)

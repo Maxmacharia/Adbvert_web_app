@@ -21,7 +21,7 @@ def create_polygon(polygon: schemas.PolygonCreate, db: Session = Depends(get_db)
 
         # Create a new PolygonModel instance
         db_polygon = models.PolygonModel(geom=wkt_polygon, boundary=polygon.boundary, owner_id = current_user.id)
-
+        print()
         # Add the instance to the session and commit changes to the database
         db.add(db_polygon)
         db.commit()

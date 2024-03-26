@@ -17,6 +17,8 @@ class userlogin(BaseModel):
 class advert(BaseModel):
     title: str
     content: str
+    latitude: float #Float coordinates
+    longitude: float #Float coordinates
 
 # Pydantic model for request body
 class feedback_post(BaseModel):

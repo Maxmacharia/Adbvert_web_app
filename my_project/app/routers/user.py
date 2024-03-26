@@ -6,8 +6,10 @@ from my_project.app import schemas
 from sqlalchemy.orm import Session
 from my_project.app.database import get_db
 import requests
+from geopy.geocoders import Nominatim
 
 router = APIRouter(prefix="/users", tags=['users'])
+
 # Third-party IP geolocation API URL and your API key
 IP_GEOLOCATION_API_URL = "https://ipinfo.io/"
 IP_GEOLOCATION_API_KEY = "614e5bfa102eb7"
@@ -16,7 +18,8 @@ IP_GEOLOCATION_API_KEY = "614e5bfa102eb7"
 def get_user_location(request: Request) -> Optional[str]:
     try:
         # Get IP address from request
-        client_ip = request.client.host
+        client_ip = request.client
+        print(client_ip)
         response = requests.get(f"{IP_GEOLOCATION_API_URL}{client_ip}?token={IP_GEOLOCATION_API_KEY}")
         response.raise_for_status()
         data = response.json()
