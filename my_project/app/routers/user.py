@@ -6,7 +6,6 @@ from my_project.app import schemas
 from sqlalchemy.orm import Session
 from my_project.app.database import get_db
 import requests
-from geopy.geocoders import Nominatim
 
 router = APIRouter(prefix="/users", tags=['users'])
 
